@@ -7,6 +7,7 @@ namespace Afro.Ranking.Persistance
 {
     public class ApplicationContext : IdentityDbContext<Admin>
     {
+      public ApplicationContext() { }
        public ApplicationContext(DbContextOptions<ApplicationContext> options) :base(options) { }
        public DbSet<Admin> Admin { get; set; }
         public DbSet<Influencer> Influencer { get; set; }
@@ -17,6 +18,14 @@ namespace Afro.Ranking.Persistance
         public DbSet<CityMapData> City { get; set; }
 
         public DbSet<Twitter> Twitter { get; set; }
+        public DbSet<TikTok> TikTok { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer("Data Source=LAPTOP-7CRO7SVO\\SQLEXPRESS;Initial Catalog=Afro-Ranging;Integrated Security=True;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        }
+        protected override void OnModelCreating(ModelBuilder builder) => base.OnModelCreating(builder);
     }
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
     {

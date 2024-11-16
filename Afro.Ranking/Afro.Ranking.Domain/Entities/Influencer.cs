@@ -24,6 +24,7 @@ namespace Afro.Ranking.Domain.Entities
         public virtual FaceBook? FaceBook { get; set; }
         public virtual YouTube? YouTube { get; set; }
         public virtual Instagram? Instagram { get; set; }
-        public virtual Twitter? Twitter { get; set; }    
+        public virtual Twitter? Twitter { get; set; }
+        public virtual TikTok? TikTok { get; set; }
     }
 }

@@ -1,0 +1,6 @@
+@Afro.Ranking_HostAddress = http://localhost:5168
+
+GET {{Afro.Ranking_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace Afro.Ranking.Persistance.Repositories
 {
-    public class InfluencerRepository
+    public class InfluencerRepository : IDisposable, IInfluencerRepository
     {
         private readonly ApplicationContext _context;
         public InfluencerRepository(ApplicationContext context) { _context = context; }
+        public static InfluencerRepository GetInstance()
+        {
+            ApplicationContext c = new();
+            InfluencerRepository inst = new InfluencerRepository(c);
+            return inst;
+        }
         public async Task<Influencer> GetInfluencerById(int id)
         {
             var result = await _context.Influencer
@@ -19,6 +25,7 @@ namespace Afro.Ranking.Persistance.Repositories
                                   .Include(x => x.FaceBook)
                                   .Include(x => x.Twitter)
                                    .Include(x => x.IsInstagram)
+                                   .AsNoTracking()
                                   .FirstOrDefaultAsync(x => x.Id == id);
             if (result == null)
             {
@@ -26,16 +33,24 @@ namespace Afro.Ranking.Persistance.Repositories
             }
             return result;
         }
-        public Task<IQueryable<Influencer>> GetAll()
+        public async Task<List<Influencer>> GetAll()
         {
 
-            return (Task<IQueryable<Influencer>>)_context.Influencer
+            return await _context.Influencer
                                    .Include(x => x.YouTube)
                                    .Include(x => x.FaceBook)
                                    .Include(x => x.Twitter)
-                                    .Include(x => x.IsInstagram)
-                                   .AsQueryable();
+                                    .Include(x => x.Instagram)
+                                    .Include(x => x.TikTok)
+                                   .ToListAsync();
 
         }
+
+        public void Dispose()
+        {
+
+        }
+
+        Task<IQueryable<Influencer>> IInfluencerRepository.GetAll() => throw new NotImplementedException();
     }
 }

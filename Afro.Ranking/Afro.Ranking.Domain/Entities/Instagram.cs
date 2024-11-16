@@ -11,10 +11,10 @@ namespace Afro.Ranking.Domain.Entities
         [Required]
         [ForeignKey("Influencer")]
         public int InfluencerId { get; set; }
-        public Int64? Followers { get; set; }
-        public double? EngagementRate { get; set; }
-        public Int64? AverageLikes { get; set; }
-        public double?  AverageComments { get; set; }
+        public Int64 Followers { get; set; }
+        public double EngagementRate { get; set; }
+        public Int64  AverageLikes { get; set; }
+        public double   AverageComments { get; set; }
         public string? IconImage { get; set; }
 
     }

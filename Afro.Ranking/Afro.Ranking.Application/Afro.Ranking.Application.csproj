@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Afro.Ranking.Domain\Afro.Ranking.Domain.csproj" />
+    <ProjectReference Include="..\Afro.Ranking.Persistance\Afro.Ranking.Persistance.csproj" />
+  </ItemGroup>
+
 </Project>
