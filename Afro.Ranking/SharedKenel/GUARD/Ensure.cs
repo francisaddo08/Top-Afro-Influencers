@@ -10,15 +10,38 @@ namespace SharedKenel.GUARD
 {
     public static class Ensure
     {
-     public static void NotNullOrEmpty(
-                  [NotNull]string? value,
-                  [CallerArgumentExpression("value")] string? paramName= default
-        ) 
-        { 
-        if ( string.IsNullOrEmpty(value) ) 
+        public static void NotNullOrEmpty(
+                     [NotNull] string? value,
+                     [CallerArgumentExpression("value")] string? paramName = default
+                     )
+                    {
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            throw new ArgumentNullException(paramName);
+                        }
+                    }
+        public static void NotNullOrWhiteSpace(
+                   [NotNull] string? value,
+                   [CallerArgumentExpression("value")] string? paramName = default
+                   )
         {
-         throw new ArgumentNullException(paramName);
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(paramName);
+            }
         }
+        public static void NotGreaterThan(
+          int value, 
+          int maxValue,
+          string? message = null,
+          [CallerArgumentExpression("value")]string? paramName = null
+          )
+        {
+          if(value > maxValue) 
+          {
+           throw new ArgumentException(message, paramName);
+          }
+
         }
     }
 }

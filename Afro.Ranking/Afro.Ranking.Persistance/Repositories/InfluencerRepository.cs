@@ -1,4 +1,4 @@
-﻿using Afro.Ranking.Domain.Entities;
+﻿using  Afro.Ranking.Persistance.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

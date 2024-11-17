@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Afro.Ranking.Domain.Entities
+namespace  Afro.Ranking.Persistance.Entities
 {
     public class InfluencerDetail
     {

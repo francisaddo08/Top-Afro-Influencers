@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Afro.Ranking.Domain.Entities
+namespace  Afro.Ranking.Persistance.Entities
 {
-    public class FaceBook
+    public class Twitter
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,9 +11,8 @@ namespace Afro.Ranking.Domain.Entities
         [Required]
         [ForeignKey("Influencer")]
         public int InfluencerId { get; set; }
-        public Int64 Likes { get; set; }
-        public Int64 TalkingAbout { get; set; }
+        public Int64 Followers { get; set; }
+        public Int64 Views { get; set; }
         public string? IconImage { get; set; }
-
     }
 }

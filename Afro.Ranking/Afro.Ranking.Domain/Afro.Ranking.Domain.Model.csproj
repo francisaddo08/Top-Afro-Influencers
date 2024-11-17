@@ -14,4 +14,9 @@
     <ProjectReference Include="..\SharedKenel\SharedKenel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>

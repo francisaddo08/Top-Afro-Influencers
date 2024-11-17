@@ -1,15 +1,16 @@
 ﻿
 using Afro.Ranking.Application.Constants;
 using Afro.Ranking.Application.Influencer.ViewModel;
-using Afro.Ranking.Domain.Model.Influencers;
+using Afro.Ranking.Domain.Model.Entities.Influencers;
 using Afro.Ranking.Persistance.Repositories;
+using Afro.Ranking.Persistance.Entities;
 using Azure.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Afro.Ranking.Domain.Model.Influencers.Instagram;
+
 
 namespace Afro.Ranking.Application.Influencer
 {
@@ -146,8 +147,8 @@ namespace Afro.Ranking.Application.Influencer
                     else
                     {
                         item.ImageCssClass = "top20odd-image";
-                        item.NameCssClass = "top20old-name";
-                        item.RankCssClass = "top20old-rank";
+                        item.NameCssClass = "top20odd-name";
+                        item.RankCssClass = "top20odd-rank";
                         item.ContainerCssClass = "top" + item.Rank + "-container";
                     }
                 }
@@ -208,15 +209,15 @@ namespace Afro.Ranking.Application.Influencer
                     if (item.Rank % 2 == 0)
                     {
                         item.ImageCssClass = "top30even-image";
-                        item.NameCssClass = "top30old-name";
-                        item.RankCssClass = "top30old-rank";
+                        item.NameCssClass = "top30even-name";
+                        item.RankCssClass = "top30even-rank";
                         item.ContainerCssClass = "top" + item.Rank + "-container";
                     }
                     else
                     {
                         item.ImageCssClass = "top30odd-image";
-                        item.NameCssClass = "top30old-name";
-                        item.RankCssClass = "top30old-rank";
+                        item.NameCssClass = "top30odd-name";
+                        item.RankCssClass = "top30odd-rank";
                         item.ContainerCssClass = "top" + item.Rank + "-container";
                     }
 
@@ -240,9 +241,9 @@ namespace Afro.Ranking.Application.Influencer
 
         }
 
-        public async Task<List<Domain.Model.Influencers.Influencer>> GetInfluencers()
+        public async Task<List<Domain.Model.Entities.Influencers. Influencer>> GetInfluencers()
         {
-            List<Domain.Model.Influencers.Influencer> data = new();
+            List<Domain.Model.Entities.Influencers.Influencer> data = new();
             using (var repo = InfluencerRepository.GetInstance())
             {
                 var d = await repo.GetAll();
@@ -250,50 +251,41 @@ namespace Afro.Ranking.Application.Influencer
                 {
                     foreach (var item in d)
                     {
-                        Domain.Model.Influencers.Influencer influencer =
-                        Domain.Model.Influencers.Influencer.Create(item.Name ?? "", item.City ?? "", item.Country ?? "", item.Image ?? "");
-                        FaceBook f = new FaceBook()
+                        Domain.Model.Entities.Influencers.Influencer influencer =
+                        Domain.Model.Entities.Influencers.Influencer.Create(item.Name ?? "", item.City ?? "", item.Country ?? "", item.Image ?? "");
+                        Domain.Model.Entities.Influencers.FaceBook f = new Domain.Model.Entities.Influencers.FaceBook()
                         {
                             Likes = item.FaceBook == null ? 0 : item.FaceBook.Likes,
                             TalkingAbout = item.FaceBook == null ? 0 : item.FaceBook.TalkingAbout,
                             IconImage = item.FaceBook == null ? "" : item.FaceBook.IconImage ?? ""
                         };
                         influencer.AddChannel(f);
-                        Instagram i = new Instagram()
+                        Domain.Model.Entities.Influencers.Instagram i = new Domain.Model.Entities.Influencers.Instagram()
                         {
                             Followers = item.Instagram == null ? 0 : item.Instagram.Followers,
                             AverageComments = item.Instagram == null ? 0 : (long)item.Instagram.AverageComments,
                             AverageLikes = item.Instagram == null ? 0 : item.Instagram.AverageLikes,
                             EngagementRate = item.Instagram == null ? 0 : (long)item.Instagram.EngagementRate,
                             IconImage = item.Instagram == null ? "" : item.Instagram.IconImage ?? "",
-
                         };
-                        Twitter tw = new Twitter()
+                        Domain.Model.Entities.Influencers.Twitter tw = new Domain.Model.Entities.Influencers.Twitter()
                         {
                             Followers = item.Twitter == null ? 0 : item.Twitter.Followers,
                             IconImage = item.Twitter == null ? "" : item.Twitter.IconImage ?? ""
-
-
-
                         };
-                        TikTok ti = new TikTok()
+                        influencer.AddChannel(tw);
+                        Domain.Model.Entities.Influencers.TikTok ti = new Domain.Model.Entities.Influencers.TikTok()
                         {
                             Followers = item.TikTok == null ? 0 : item.TikTok.Followers,
                             Views = item.TikTok == null ? 0 : item.TikTok.Views,
                             IconImage = item.TikTok == null ? "" : item.TikTok.IconImage ?? ""
-
-
-
                         };
                         influencer.AddChannel(ti);
-                        YouTube y = new YouTube()
+                        Domain.Model.Entities.Influencers.YouTube y = new Domain.Model.Entities.Influencers.YouTube()
                         {
                             Subscribers = item.YouTube == null ? 0 : item.YouTube.Subscribers,
                             Views = item.YouTube == null ? 0 : item.YouTube.Views,
                             IconImage = item.YouTube == null ? "" : item.YouTube.IconImage ?? ""
-
-
-
                         };
                         influencer.AddChannel(y);
                         data.Add(influencer);

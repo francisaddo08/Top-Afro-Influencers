@@ -1,4 +1,4 @@
-﻿using Afro.Ranking.Domain.Entities;
+﻿using  Afro.Ranking.Persistance.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;

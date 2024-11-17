@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace Afro.Ranking.Domain.Entities
+namespace  Afro.Ranking.Persistance.Entities
 {
-    public class Media
+    public class Social
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,6 +18,5 @@ namespace Afro.Ranking.Domain.Entities
         public int InfluencerId { get; set; }
         public string? Name { get; set; }
         public string? ImageUrl { get; set; }
-
     }
 }

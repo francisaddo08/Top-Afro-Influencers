@@ -5,9 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Afro.Ranking.Domain.Entities
+
+namespace  Afro.Ranking.Persistance.Entities
 {
-    public class GeoLocation
+    public class Media
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,18 +16,8 @@ namespace Afro.Ranking.Domain.Entities
         [Required]
         [ForeignKey("Influencer")]
         public int InfluencerId { get; set; }
-        [Required]
-        public string? Country { get; set; }
-        [Required]
-        public string? CountryCode { get; set; }
-        public string? State { get; set; }
-        public string? Region { get; set; }
-        public string? City { get; set; }
-        public string? MetroArea { get; set; }
-
-        public string? PostCode { get; set; }
-
-
+        public string? Name { get; set; }
+        public string? ImageUrl { get; set; }
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Afro.Ranking.Domain.Entities
+namespace  Afro.Ranking.Persistance.Entities
 {
     public class UpdateChanels
     {

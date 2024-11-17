@@ -1,4 +1,4 @@
-﻿using Afro.Ranking.Domain.Entities;
+﻿using  Afro.Ranking.Persistance.Entities;
 
 namespace Afro.Ranking.Persistance.Repositories
 {

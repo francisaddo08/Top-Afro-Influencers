@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 
-namespace Afro.Ranking.Domain.Entities
+namespace  Afro.Ranking.Persistance.Entities
 {
     public class Admin : IdentityUser
     {

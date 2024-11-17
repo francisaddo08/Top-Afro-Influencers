@@ -25,7 +25,7 @@ namespace Afro.Ranking.Persistance.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.Admin", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.Admin", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -98,7 +98,7 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.CityMapData", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.CityMapData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,7 +150,7 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("City");
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.CountryMapData", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.CountryMapData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -202,7 +202,7 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("Country");
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.FaceBook", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.FaceBook", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -230,7 +230,7 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("FaceBook");
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.Influencer", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.Influencer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -267,7 +267,7 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("Influencer");
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.Instagram", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.Instagram", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,7 +301,7 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("Instagram");
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.Twitter", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.Twitter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,7 +329,7 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("Twitter");
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.YouTube", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.YouTube", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -490,56 +490,56 @@ namespace Afro.Ranking.Persistance.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.CityMapData", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.CityMapData", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Influencer", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Influencer", null)
                         .WithOne("CityMapData")
-                        .HasForeignKey("Afro.Ranking.Domain.Entities.CityMapData", "InfluencerId")
+                        .HasForeignKey(" Afro.Ranking.Persistance.Entities.CityMapData", "InfluencerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.CountryMapData", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.CountryMapData", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Influencer", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Influencer", null)
                         .WithOne("MapData")
-                        .HasForeignKey("Afro.Ranking.Domain.Entities.CountryMapData", "InfluencerId")
+                        .HasForeignKey(" Afro.Ranking.Persistance.Entities.CountryMapData", "InfluencerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.FaceBook", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.FaceBook", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Influencer", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Influencer", null)
                         .WithOne("FaceBook")
-                        .HasForeignKey("Afro.Ranking.Domain.Entities.FaceBook", "InfluencerId")
+                        .HasForeignKey(" Afro.Ranking.Persistance.Entities.FaceBook", "InfluencerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.Instagram", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.Instagram", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Influencer", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Influencer", null)
                         .WithOne("Instagram")
-                        .HasForeignKey("Afro.Ranking.Domain.Entities.Instagram", "InfluencerId")
+                        .HasForeignKey(" Afro.Ranking.Persistance.Entities.Instagram", "InfluencerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.Twitter", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.Twitter", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Influencer", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Influencer", null)
                         .WithOne("Twitter")
-                        .HasForeignKey("Afro.Ranking.Domain.Entities.Twitter", "InfluencerId")
+                        .HasForeignKey(" Afro.Ranking.Persistance.Entities.Twitter", "InfluencerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.YouTube", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.YouTube", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Influencer", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Influencer", null)
                         .WithOne("YouTube")
-                        .HasForeignKey("Afro.Ranking.Domain.Entities.YouTube", "InfluencerId")
+                        .HasForeignKey(" Afro.Ranking.Persistance.Entities.YouTube", "InfluencerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -555,7 +555,7 @@ namespace Afro.Ranking.Persistance.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Admin", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Admin", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -564,7 +564,7 @@ namespace Afro.Ranking.Persistance.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Admin", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Admin", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -579,7 +579,7 @@ namespace Afro.Ranking.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Afro.Ranking.Domain.Entities.Admin", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Admin", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -588,14 +588,14 @@ namespace Afro.Ranking.Persistance.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Afro.Ranking.Domain.Entities.Admin", null)
+                    b.HasOne(" Afro.Ranking.Persistance.Entities.Admin", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Afro.Ranking.Domain.Entities.Influencer", b =>
+            modelBuilder.Entity(" Afro.Ranking.Persistance.Entities.Influencer", b =>
                 {
                     b.Navigation("CityMapData");
 

@@ -1,4 +1,4 @@
-﻿using Afro.Ranking.Domain.Entities;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedKenel.Abstracts;
 using System.Globalization;
+using static Afro.Ranking.Domain.Model.Entities.Influencers.Instagram;
 
-namespace Afro.Ranking.Domain.Model.Influencers
+
+namespace Afro.Ranking.Domain.Model.Entities.Influencers
 {
     public class Influencer :Entity
     {
@@ -139,20 +141,22 @@ namespace Afro.Ranking.Domain.Model.Influencers
             get { return Followers + EngagementRate + AverageComments + AverageLikes; }
 
         }
-        public class Twitter : SocialMediaBase
-        {
-            public long Followers { get; set; }
-            public string IconImage { get; set; } = string.Empty;
-            public override long Total { get { return Followers ; } }
-        }
-        public class TikTok: SocialMediaBase
-        {
-         
-            public Int64 Followers { get; set; }
-            public Int64 Views { get; set; }
-            public string? IconImage { get; set; }
-            public override long Total { get { return Followers + Views; } }
+      
+      
+    }
+    public class Twitter : SocialMediaBase
+    {
+        public long Followers { get; set; }
+        public string IconImage { get; set; } = string.Empty;
+        public override long Total { get { return Followers; } }
+    }
+    public class TikTok : SocialMediaBase
+    {
 
-        }
+        public Int64 Followers { get; set; }
+        public Int64 Views { get; set; }
+        public string? IconImage { get; set; }
+        public override long Total { get { return Followers + Views; } }
+
     }
 }

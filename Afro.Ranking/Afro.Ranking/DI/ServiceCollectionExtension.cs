@@ -1,4 +1,6 @@
-﻿using Afro.Ranking.Persistance.Repositories;
+﻿using Afro.Ranking.Domain.Model.Repository;
+using Afro.Ranking.Persistance;
+using Afro.Ranking.Persistance.Repositories;
 
 namespace Afro.Ranking.DI
 {
@@ -8,6 +10,7 @@ namespace Afro.Ranking.DI
         {
             
                 serviceCollection.AddScoped<InfluencerRepository>();
+            serviceCollection.AddScoped<AdminRepository>();
             return serviceCollection;
         }
     }

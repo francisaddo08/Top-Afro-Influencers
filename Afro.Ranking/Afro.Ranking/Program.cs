@@ -1,7 +1,9 @@
 using Afro.Ranking.Application.Influencer;
 using Afro.Ranking.DI;
 using Afro.Ranking.Persistance;
+using Afro.Ranking.Domain.Model.Entities;
 using Afro.Ranking.Persistance.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 internal class Program
 {
@@ -54,6 +56,21 @@ internal class Program
            
 
         }
+        var admin = app.MapGroup("/Admin");
+        admin.MapPost("/", CreateAdmin);
+        static async Task<IResult> CreateAdmin( Afro.Ranking.Application.Admin.AdminViewModel adminViewModel, AdminRepository repo)
+        {
+               Admin admin = Admin.Create(adminViewModel.FirstName, adminViewModel.LastName);
+            repo.Add(admin);
+            await repo.Save();
+            return TypedResults.Created($"", admin);
+        }
+        //admin.MapPost("", async (Afro.Ranking.Domain.Model.Entities.Admin admin, AdminRepository repo) => 
+        //  { 
+        //      repo.Add(admin);
+        //     await  repo.Save();
+        //      return Results.Created($"", admin);
+        //  });
 
         app.Run();
     }

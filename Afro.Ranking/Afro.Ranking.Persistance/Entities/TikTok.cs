@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-
-namespace Afro.Ranking.Domain.Entities
+namespace  Afro.Ranking.Persistance.Entities
 {
-    public class Social
+    public class TikTok
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,7 +16,9 @@ namespace Afro.Ranking.Domain.Entities
         [Required]
         [ForeignKey("Influencer")]
         public int InfluencerId { get; set; }
-        public string? Name { get; set; }
-        public string? ImageUrl { get; set; }
+        public Int64 Followers { get; set; }
+        public Int64 Views { get; set; }
+        public string? IconImage { get; set; }
+
     }
 }

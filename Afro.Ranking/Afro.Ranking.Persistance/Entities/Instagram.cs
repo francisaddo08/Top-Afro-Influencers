@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Afro.Ranking.Domain.Entities
+namespace  Afro.Ranking.Persistance.Entities
 {
-    public class YouTube
+    public class Instagram
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,8 +11,11 @@ namespace Afro.Ranking.Domain.Entities
         [Required]
         [ForeignKey("Influencer")]
         public int InfluencerId { get; set; }
-        public Int64 Subscribers { get; set; }
-        public Int64 Views { get; set; }
+        public Int64 Followers { get; set; }
+        public double EngagementRate { get; set; }
+        public Int64  AverageLikes { get; set; }
+        public double   AverageComments { get; set; }
         public string? IconImage { get; set; }
+
     }
 }
