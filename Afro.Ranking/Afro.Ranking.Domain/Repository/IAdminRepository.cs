@@ -1,4 +1,6 @@
-﻿using Afro.Ranking.Domain.Model.Entities;
+﻿
+using Afro.Ranking.Domain.Model.Entities.Admin;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ namespace Afro.Ranking.Domain.Model.Repository
 {
     public interface IAdminRepository
     {
+      
      void Add(Admin admin);
     }
 }
