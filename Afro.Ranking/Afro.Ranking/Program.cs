@@ -8,6 +8,12 @@ using Afro.Ranking.Domain.Model.Entities.Admin;
 using Afro.Ranking.Application.Admin;
 using Afro.Ranking.Persistance.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 internal class Program
 {
@@ -19,19 +25,36 @@ internal class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
         builder.Services.AddSingleton<ApplicationContext>();
-        
         builder.Services.AddScopedServices();
         builder.Services.AddIdentity<Afro.Ranking.Persistance.Entities.Admin, IdentityRole>(
               option =>
               {
                 option.User.RequireUniqueEmail = true;
-
-
               })
                .AddEntityFrameworkStores<ApplicationContext>()
                .AddDefaultTokenProviders();
-        
+
+        // Config JWT Authentication Config
+        var secret = builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JTW with no Secret");
+        builder.Services.AddAuthentication(options =>
+                     {
+                         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                     })
+                     .AddJwtBearer(options => 
+                     {
+                         options.SaveToken = true;
+                         options.TokenValidationParameters = new TokenValidationParameters
+                         {
+                           ValidIssuer  = builder.Configuration["JWT:ValidIssuer"],
+                           ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+                         };
+                     });
+        builder.Services.AddAuthorization();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -40,7 +63,10 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.UseStaticFiles();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        //********************************************************EndPoints*****************************************************
         var summaries = new[]
         {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -60,20 +86,29 @@ internal class Program
         })
         .WithName("GetWeatherForecast")
         .WithOpenApi();
+
         var influencerdata = app.MapGroup("/Influencer");
-        influencerdata.MapGet("/", GetIndex);
+        influencerdata.MapGet("/", GetIndex).RequireAuthorization();
+        //influencerdata.MapGet("/AddBioData", AddBioData);
+        influencerdata.MapPost("/AddBioData", AddBioData);
+
+        static async Task<IResult> AddBioData( ApplicationContext context)
+        {
+            InfluencerService service = new InfluencerService();
+            var data = await service.GetInfluencerViewModels();
+            return TypedResults.Ok(data.ToArray());
+        }
         static async Task<IResult>GetIndex()
         {
             InfluencerService service = new InfluencerService();
             var data = await service.GetInfluencerViewModels();
             return TypedResults.Ok(data.ToArray());
-      
-           
-
         }
+
         var admin = app.MapGroup("/Admin");
         admin.MapPost("/", CreateAdmin);
         admin.MapPost("/Login",Login);
+        
         static async Task<IResult> CreateAdmin( Afro.Ranking.Application.Admin.CreateAdminUserViewModel adminViewModel, UserManager<Afro.Ranking.Persistance.Entities.Admin> userManager)
         {
             CreateAdminUserViewModelValidator validationRules = new CreateAdminUserViewModelValidator();
@@ -89,26 +124,54 @@ internal class Program
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
             var result = await userManager.CreateAsync(entity, adminModel.Password.Value);
-            return TypedResults.Created($"", result);
+            if (result.Succeeded) 
+            {
+                return TypedResults.Created($"", result);
+            }
+            else
+            {
+                return TypedResults.Json(new { Message = "Internal Server Error" });
+                
+            }
+            
         }
-        static async Task<IResult> Login(Afro.Ranking.Application.Admin.Login login, UserManager<Afro.Ranking.Persistance.Entities.Admin> userManager, SignInManager<Afro.Ranking.Persistance.Entities.Admin> signInManager)
+        static async Task<IResult> Login(Afro.Ranking.Application.Admin.Login login, UserManager<Afro.Ranking.Persistance.Entities.Admin> userManager, SignInManager<Afro.Ranking.Persistance.Entities.Admin> signInManager, IConfiguration config)
         {
             LoginValidator validationRules = new LoginValidator();
            var valid = await validationRules.ValidateAsync(login);
            if(valid.IsValid) 
            {
                 var user = await userManager.FindByEmailAsync(login.UserId);
-                if(user == null) {
-                return TypedResults.NotFound();
+                if(user == null || !(await userManager.CheckPasswordAsync(user , login.Password))) {
+                  return TypedResults.Unauthorized();
                 }
-                var signIn = await signInManager.PasswordSignInAsync(user, login.Password,false, false);
-                if(signIn != null && signIn.Succeeded) 
+                // make claims
+                var AdminClaims = new List<Claim>
                 {
-                    return TypedResults.Ok();
-                }
+                  new Claim(ClaimTypes.Name, login.UserId),
+                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                              config["JWT:Secret"] ?? throw new InvalidOperationException("JTW with no Secret")));
+                var token = new JwtSecurityToken(
+                    issuer: config["JWT:ValidIssuer"],
+                    audience: config["JWT:ValidAudience"],
+                    expires: DateTime.UtcNow.AddHours(1),
+                    claims : AdminClaims,
+                    signingCredentials :new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+                    );
+
+                return TypedResults.Ok(
+                           new LoginResponse()
+                           {
+                           JwtToken = new JwtSecurityTokenHandler().WriteToken(token),
+                           ExpirationDate = token.ValidTo,
+                           }
+                        );
+               
                 
             }
-            return TypedResults.NotFound();
+            return TypedResults.Unauthorized();
         }
 
 
