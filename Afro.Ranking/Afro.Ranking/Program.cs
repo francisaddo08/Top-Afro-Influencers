@@ -14,58 +14,15 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Afro.Ranking.ApplicationHostingExtensions;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var app = builder.ConfigureBuilderServices().ConfigureApplicationPipelines();
 
-        // Add services to the container.
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-        builder.Services.AddSingleton<ApplicationContext>();
-        builder.Services.AddScopedServices();
-        builder.Services.AddIdentity<Afro.Ranking.Persistance.Entities.Admin, IdentityRole>(
-              option =>
-              {
-                option.User.RequireUniqueEmail = true;
-              })
-               .AddEntityFrameworkStores<ApplicationContext>()
-               .AddDefaultTokenProviders();
-
-        // Config JWT Authentication Config
-        var secret = builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JTW with no Secret");
-        builder.Services.AddAuthentication(options =>
-                     {
-                         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                     })
-                     .AddJwtBearer(options => 
-                     {
-                         options.SaveToken = true;
-                         options.TokenValidationParameters = new TokenValidationParameters
-                         {
-                           ValidIssuer  = builder.Configuration["JWT:ValidIssuer"],
-                           ValidAudience = builder.Configuration["JWT:ValidAudience"],
-                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
-                         };
-                     });
-        builder.Services.AddAuthorization();
-        var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-        app.UseStaticFiles();
-        app.UseAuthentication();
-        app.UseAuthorization();
         //********************************************************EndPoints*****************************************************
         var summaries = new[]
         {
