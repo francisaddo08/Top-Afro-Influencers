@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKenel", "SharedKenel\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Afro.Ranking", "Afro.Ranking\Afro.Ranking.csproj", "{17E0EB1D-B84D-417A-B026-50952EB52CA5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{EFF38724-22D9-469F-9437-F8330BD29898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afro.Ranking.Model", "Afro.Ranking.Model\Afro.Ranking.Model.csproj", "{E127D7DB-BCBE-4EA6-9DFB-C07A873E9F8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,10 @@ Global
 		{17E0EB1D-B84D-417A-B026-50952EB52CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17E0EB1D-B84D-417A-B026-50952EB52CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17E0EB1D-B84D-417A-B026-50952EB52CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E127D7DB-BCBE-4EA6-9DFB-C07A873E9F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E127D7DB-BCBE-4EA6-9DFB-C07A873E9F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E127D7DB-BCBE-4EA6-9DFB-C07A873E9F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E127D7DB-BCBE-4EA6-9DFB-C07A873E9F8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{3BAC6DDC-4E8F-44B9-A442-284EC285B627} = {383F0106-C1D6-457E-9ED1-F324704B2314}
 		{47871C38-CFAD-4605-A9E5-CEF1ECFC7CBB} = {5545BACC-C5BE-4E83-900B-E8F42A52CA58}
 		{17E0EB1D-B84D-417A-B026-50952EB52CA5} = {E71B3954-CCC3-4881-B6B2-6D0F4E8DBB95}
+		{E127D7DB-BCBE-4EA6-9DFB-C07A873E9F8D} = {EFF38724-22D9-469F-9437-F8330BD29898}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18001B8E-9B81-4AAC-AA19-FA07F20837D9}

@@ -62,8 +62,8 @@ namespace Afro.Ranking.ApplicationHostingExtensions
 
 
             app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             return app;
         }
     }

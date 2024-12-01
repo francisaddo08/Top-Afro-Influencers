@@ -23,7 +23,7 @@ namespace Afro.Ranking.Persistance
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-7CRO7SVO\\SQLEXPRESS;Initial Catalog=Afro-Ranging;Integrated Security=True;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            optionsBuilder.UseSqlServer("Data Source=MSI\\SQLEXPRESS;Initial Catalog=Afro-Ranging;Integrated Security=True;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
         }
         protected override void OnModelCreating(ModelBuilder builder) => base.OnModelCreating(builder);
     }
@@ -32,7 +32,7 @@ namespace Afro.Ranking.Persistance
         ApplicationContext IDesignTimeDbContextFactory<ApplicationContext>.CreateDbContext(string[] args)
         {
             var dbOptionBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-            dbOptionBuilder.UseSqlServer("Data Source=LAPTOP-7CRO7SVO\\SQLEXPRESS;Initial Catalog=Afro-Ranging;Integrated Security=True;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            dbOptionBuilder.UseSqlServer("Data Source=MSI\\SQLEXPRESS;Initial Catalog=Afro-Ranging;Integrated Security=True;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
             return new ApplicationContext(dbOptionBuilder.Options);
         }
     }

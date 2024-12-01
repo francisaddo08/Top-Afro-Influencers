@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Afro.Ranking.Application\Afro.Ranking.Application.csproj" />
     <ProjectReference Include="..\Afro.Ranking.Domain\Afro.Ranking.Domain.Model.csproj" />
+    <ProjectReference Include="..\Afro.Ranking.Model\Afro.Ranking.Model.csproj" />
     <ProjectReference Include="..\Afro.Ranking.Persistance\Afro.Ranking.Persistance.csproj" />
   </ItemGroup>
 

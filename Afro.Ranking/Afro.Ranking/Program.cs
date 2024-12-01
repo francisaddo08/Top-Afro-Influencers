@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Afro.Ranking.ApplicationHostingExtensions;
+using Afro.Ranking.Model.RequestDto;
+using Afro.Ranking.Model.RequestDto.Validators;
 
 internal class Program
 {
@@ -45,7 +47,8 @@ internal class Program
         .WithOpenApi();
 
         var influencerdata = app.MapGroup("/Influencer");
-        influencerdata.MapGet("/", GetIndex).RequireAuthorization();
+        //influencerdata.MapGet("/", GetIndex).RequireAuthorization(); //todo revert to authrization after test
+        influencerdata.MapGet("/", GetIndex);
         //influencerdata.MapGet("/AddBioData", AddBioData);
         influencerdata.MapPost("/AddBioData", AddBioData);
 
@@ -59,19 +62,21 @@ internal class Program
         {
             InfluencerService service = new InfluencerService();
             var data = await service.GetInfluencerViewModels();
-            return TypedResults.Ok(data.ToArray());
+            CreateAdminRequestDto dto = new CreateAdminRequestDto();
+            //return TypedResults.Ok(data.ToArray());
+            return TypedResults.Ok(dto);
         }
 
         var admin = app.MapGroup("/Admin");
         admin.MapPost("/", CreateAdmin);
         admin.MapPost("/Login",Login);
         
-        static async Task<IResult> CreateAdmin( Afro.Ranking.Application.Admin.CreateAdminUserViewModel adminViewModel, UserManager<Afro.Ranking.Persistance.Entities.Admin> userManager)
+        static async Task<IResult> CreateAdmin(CreateAdminRequestDto adminrequestDto, UserManager<Afro.Ranking.Persistance.Entities.Admin> userManager)
         {
-            CreateAdminUserViewModelValidator validationRules = new CreateAdminUserViewModelValidator();
-              validationRules.Validate(adminViewModel);
+            CreateAdminRequestDtoValidator validator = new();
+              validator.Validate(adminrequestDto);
 
-              Afro.Ranking.Domain.Model.Entities.Admin.Admin adminModel = Afro.Ranking.Domain.Model.Entities.Admin.Admin.Create(adminViewModel.FirstName, adminViewModel.LastName, adminViewModel.Email, adminViewModel.Password);
+              Afro.Ranking.Domain.Model.Entities.Admin.Admin adminModel = Afro.Ranking.Domain.Model.Entities.Admin.Admin.Create(adminrequestDto.FirstName, adminrequestDto.LastName, adminrequestDto.Email, adminrequestDto.Password);
             Afro.Ranking.Persistance.Entities.Admin entity = new Afro.Ranking.Persistance.Entities.Admin()
             {
                 FirstName = adminModel.FirstName.Value,

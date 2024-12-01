@@ -61,11 +61,68 @@ namespace Afro.Ranking.Persistance.ADO.NET.Abstract
             throw CreateException(ex);
             }
         }
-        public Task<object?> ExecuteScalarDataAsync() => throw new NotImplementedException();
-        public SqlDataReader ExecuteSqlDataReader() => throw new NotImplementedException();
-        public Task<SqlDataReader> ExecuteSqlDataReaderAsync() => throw new NotImplementedException();
-        public XmlReader ExecuteXmlReader() => throw new NotImplementedException();
-        public Task<XmlReader> ExecuteXmlReaderAsync() => throw new NotImplementedException();
+        public async Task<object?> ExecuteScalarDataAsync() 
+        {
+           try
+           {
+           return await Command.ExecuteScalarAsync();
+           }
+           catch(Exception ex) 
+           {
+           throw CreateException(ex);
+           }
+        }
+        public SqlDataReader ExecuteSqlDataReader()
+        {
+            try
+            {
+             return Command.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+            throw CreateException(ex);
+            }
+        }
+        public  async Task<SqlDataReader> ExecuteSqlDataReaderAsync() 
+        {
+            try
+            {
+                return await Command.ExecuteReaderAsync();
+            }
+            catch (Exception ex)
+            {
+                throw CreateException(ex); 
+            }
+        }
+        public XmlReader ExecuteXmlReader() 
+        {
+            try
+            {
+              return Command.ExecuteXmlReader();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        }
+        public Task<XmlReader> ExecuteXmlReaderAsync()
+        {
+            try
+            {
+                return Command.ExecuteXmlReaderAsync();
+    
+    }
+            catch (Exception ex)
+            {
+
+                throw CreateException(ex) ;
+        
+    }
+
+        }
+
 
         private Exception CreateException(Exception exception)
         {
