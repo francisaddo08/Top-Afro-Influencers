@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Afro.Ranking.ApplicationHostingExtensions;
 using Afro.Ranking.Model.RequestDto;
 using Afro.Ranking.Model.RequestDto.Validators;
+using System.Collections.Specialized;
 
 internal class Program
 {
@@ -58,13 +59,21 @@ internal class Program
             var data = await service.GetInfluencerViewModels();
             return TypedResults.Ok(data.ToArray());
         }
-        static async Task<IResult>GetIndex()
+        static async Task<IResult>GetIndex( HttpRequest request)
         {
             InfluencerService service = new InfluencerService();
             var data = await service.GetInfluencerViewModels();
             CreateAdminRequestDto dto = new CreateAdminRequestDto();
             //return TypedResults.Ok(data.ToArray());
-            return TypedResults.Ok(dto);
+            NameValueCollection headerCollection = (NameValueCollection)request.Headers;
+           List<string>names = new List<string>();
+            for (int i = 0; i < headerCollection.Count; i++)
+            {
+              var header = headerCollection[i];
+                names.Add(header?? "");
+            }
+
+            return TypedResults.Ok(names);
         }
 
         var admin = app.MapGroup("/Admin");
@@ -74,28 +83,31 @@ internal class Program
         static async Task<IResult> CreateAdmin(CreateAdminRequestDto adminrequestDto, UserManager<Afro.Ranking.Persistance.Entities.Admin> userManager)
         {
             CreateAdminRequestDtoValidator validator = new();
-              validator.Validate(adminrequestDto);
+             var validResult = validator.Validate(adminrequestDto);
+            if (!validResult.IsValid)
+            {
+                Afro.Ranking.Domain.Model.Entities.Admin.Admin adminModel = Afro.Ranking.Domain.Model.Entities.Admin.Admin.Create(adminrequestDto.FirstName, adminrequestDto.LastName, adminrequestDto.Email, adminrequestDto.Password);
+                Afro.Ranking.Persistance.Entities.Admin entity = new Afro.Ranking.Persistance.Entities.Admin()
+                {
+                    FirstName = adminModel.FirstName.Value,
+                    LastName = adminModel.LastName.Value,
+                    Email = adminModel.Email.Value,
+                    UserName = adminModel.Email.Value,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                };
+                var result = await userManager.CreateAsync(entity, adminModel.Password.Value);
 
-              Afro.Ranking.Domain.Model.Entities.Admin.Admin adminModel = Afro.Ranking.Domain.Model.Entities.Admin.Admin.Create(adminrequestDto.FirstName, adminrequestDto.LastName, adminrequestDto.Email, adminrequestDto.Password);
-            Afro.Ranking.Persistance.Entities.Admin entity = new Afro.Ranking.Persistance.Entities.Admin()
-            {
-                FirstName = adminModel.FirstName.Value,
-                LastName = adminModel.LastName.Value,
-                Email = adminModel.Email.Value,
-                UserName = adminModel.Email.Value,
-                SecurityStamp = Guid.NewGuid().ToString(),
-            };
-            var result = await userManager.CreateAsync(entity, adminModel.Password.Value);
-            if (result.Succeeded) 
-            {
-                return TypedResults.Created($"", result);
+                if (result.Succeeded)
+                {
+                    return TypedResults.Created($"", result);
+                }
+                else
+                {
+                    return TypedResults.Json(new { Message = "Internal Server Error" });
+
+                }
             }
-            else
-            {
-                return TypedResults.Json(new { Message = "Internal Server Error" });
-                
-            }
-            
+              return  TypedResults.BadRequest();
         }
         static async Task<IResult> Login(Afro.Ranking.Application.Admin.Login login, UserManager<Afro.Ranking.Persistance.Entities.Admin> userManager, SignInManager<Afro.Ranking.Persistance.Entities.Admin> signInManager, IConfiguration config)
         {

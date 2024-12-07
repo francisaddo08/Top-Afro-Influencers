@@ -12,6 +12,6 @@ namespace Afro.Ranking.Domain.Model.Repository
     public interface IAdminRepository
     {
       
-     void Add(Admin admin);
+     //void Add(Admin admin);
     }
 }

@@ -6,12 +6,13 @@ namespace Afro.Ranking.DI
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddScopedServices(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddScopedServices(this IServiceCollection service)
         {
-            
-                serviceCollection.AddScoped<InfluencerRepository>();
-            serviceCollection.AddScoped<AdminRepository>();
-            return serviceCollection;
+           
+            service.AddScoped<InfluencerRepository>();
+            service.AddScoped<IAdminRepository,  AdminRepository>();
+
+            return service;
         }
     }
 }
